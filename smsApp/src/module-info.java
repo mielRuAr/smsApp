@@ -5,5 +5,6 @@
  * 
  */
 module smsApp {
-	
+	requires junit;
+
 }
