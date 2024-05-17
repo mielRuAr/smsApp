@@ -2,41 +2,54 @@ package smsApp;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
+import java.io.File;
+import java.util.List;
+
+
 import org.junit.Test;
 
-import models.Administrador;
-import models.Miembro;
+
+import models.UsuarioNormal;
+import models.abstracts.Mensaje;
+
 
 public class UsuarioTest {
-    private Miembro miembro;
-    private Administrador admin;
-
-    @Before
-    public void setUp() {
-        miembro = new Miembro(123456789, "Miembro");
-        admin = new Administrador(987654321, "Admin");
-    }
-    
-    @Test // Registro con Número Ya Registrado
-    public void testRegistroNumeroYaRegistrado() {
-        miembro.registrar(234567890); // Asumimos que este método cambia el estado interno para reflejar el registro
-        assertFalse("El registro debe fallar si el número ya está en uso", miembro.registrar(234567890));
+	
+	
+	@Test
+    public void testRegistroNumeroTelefono() {
+        int numeroTelefono = 123456789;
+        boolean registrado = UsuarioNormal.registrarNumeroTelefono(numeroTelefono);
+        assertTrue("Registro exitoso, validando que el sistema acepta números que cumplen con el formato y la unicidad requerida.", registrado);
     }
 
-    @Test //Acceso con Número Registrado
-    public void testAccesoConNumeroRegistrado() {
-        miembro.registrar(234567890);
-        assertTrue("El acceso debe ser concedido para número registrado", miembro.acceder(234567890));
+    @Test
+    public void testAccesoNumeroTelefono() {
+        int numeroTelefono = 123456789;
+        boolean acceso = UsuarioNormal.accederNumeroTelefono(numeroTelefono);
+        assertTrue("Acceso concedido, comprobando que los números registrados tienen acceso.", acceso);
     }
 
-    
-    @Test // Acceso con Número No Registrado
-    public void testAccesoConNumeroNoRegistrado() {
-        assertFalse("El acceso debe ser denegado para número no registrado", miembro.acceder(234567890));
+    @Test
+    public void testEnvioSMS() {
+        UsuarioNormal usuario = new UsuarioNormal(123456789, "Juan");
+        boolean envio = usuario.enviarMensajeTexto("", 987654321);
+        assertFalse("Envío fallido, texto vacío, asegurando que no se pueden enviar mensajes vacíos.", envio);
     }
-    
 
-    
-    
+    @Test
+    public void testEnvioMMSConImagenValida() {
+        UsuarioNormal usuario = new UsuarioNormal(123456789, "Juan");
+        File archivo = new File("imagen_incorrecta.txt");
+        boolean envio = usuario.enviarMensajeMultimedia(archivo, 987654321);
+        assertFalse("Envío fallido, archivo no soportado, asegurando que se respetan las restricciones de tamaño y formato de archivo.", envio);
+    }
+
+    @Test
+    public void testVerMensajesRecibidosPorUsuarioNoRegistrado() {
+        int numeroTelefonoNoRegistrado = 111111111;
+        List<Mensaje> mensajes = UsuarioNormal.verMensajesRecibidos(numeroTelefonoNoRegistrado);
+        assertNull("Visualización fallida, usuario no encontrado, comprobando que solo usuarios registrados pueden ver mensajes.", mensajes);
+    }
 }
+    
