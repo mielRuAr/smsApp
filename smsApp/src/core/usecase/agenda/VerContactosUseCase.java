@@ -1,4 +1,4 @@
-package core.usecase;
+package core.usecase.agenda;
 
 
 import core.domain.services.UserService;

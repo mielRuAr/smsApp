@@ -1,4 +1,4 @@
-package core.usecase;
+package core.usecase.mensaje;
 
 import java.time.LocalDate;
 
