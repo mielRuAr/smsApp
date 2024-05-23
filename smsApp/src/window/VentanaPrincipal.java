@@ -57,6 +57,25 @@ public class VentanaPrincipal extends JFrame {
                 
             }
         });
+        
+        btnAgenda.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mostrar la ventana de enviar mensaje
+                VentanaAgenda ventanaAgenda = new VentanaAgenda(VentanaPrincipal.this, null, null);
+                ventanaAgenda.setVisible(true);
+                
+            }
+        });
+        
+        btnCerrarSesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // cerrar app
+                dispose();
+                
+            }
+        });
 
         add(panel);
     }

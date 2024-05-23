@@ -12,7 +12,7 @@ import core.usecase.agenda.GuardarContactoUseCase;
 public class AgendaController {
 	   private GuardarContactoUseCase guardarContactoUseCase;
 	    private CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase;
-	    private EliminarContactoUseCase eliminarContactoUseCase;
+	    public EliminarContactoUseCase eliminarContactoUseCase;
 
 	    public AgendaController(GuardarContactoUseCase guardarContactoUseCase, CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase, EliminarContactoUseCase eliminarContactoUseCase) {
 	        this.guardarContactoUseCase = guardarContactoUseCase;
