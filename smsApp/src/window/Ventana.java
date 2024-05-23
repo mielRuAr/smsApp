@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
 import core.domain.services.LoginService;
 import persistence.RepositorioUsuario;
 
@@ -13,9 +12,11 @@ public class Ventana extends JFrame {
     private JPasswordField passwordField;
     private JButton botonIniciarSesion;
     private LoginService loginService;
+    private RepositorioUsuario repositorioUsuario;
 
-    public Ventana(LoginService loginService) {
+    public Ventana(LoginService loginService, RepositorioUsuario repositorioUsuario) {
         this.loginService = loginService;
+        this.repositorioUsuario = repositorioUsuario;
 
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,10 +71,11 @@ public class Ventana extends JFrame {
                 }
 
                 int numeroTelefono = Integer.parseInt(numeroTelefonoStr);
-                
-                // Lógica de autenticación
+
+                // Autenticar al usuario
                 if (loginService.autenticarUsuario(numeroTelefono, contraseña)) {
-                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
+                    boolean esAdmin = repositorioUsuario.esAdmin(numeroTelefono);
+                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(esAdmin);
                     ventanaPrincipal.setVisible(true);
                     dispose(); // Cerrar la ventana de inicio de sesión después de iniciar sesión
                 } else {
@@ -87,15 +89,14 @@ public class Ventana extends JFrame {
 
     // Método para validar que el número de teléfono sea un número
     private boolean validarNumeroTelefono(String numeroTelefonoStr) {
-        return Pattern.matches("\\d+", numeroTelefonoStr);
+        return numeroTelefonoStr.matches("\\d+");
     }
 
     public static void main(String[] args) {
-        // Aquí deberías inicializar tu repositorio de usuarios y pasarlos al constructor de LoginService
-        RepositorioUsuario repositorioUsuario = new RepositorioUsuario(); // Debes reemplazar esto con tu inicialización real
-        LoginService loginService = new LoginService(repositorioUsuario);
+        RepositorioUsuario repositorioUsuario = new RepositorioUsuario(); // Instanciar el repositorio de usuarios
+        LoginService loginService = new LoginService(repositorioUsuario); // Instanciar el servicio de login con el repositorio
 
-        Ventana ventana = new Ventana(loginService);
+        Ventana ventana = new Ventana(loginService, repositorioUsuario);
         ventana.setVisible(true);
     }
 }
