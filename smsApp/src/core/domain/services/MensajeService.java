@@ -9,14 +9,14 @@ import core.domain.interfaces.*;
 
 
 
-public class MessageService {
+public class MensajeService {
 	private RepositorioMensaje repositorioMensaje;
 
     /**
      * Constructor para inicializar el repositorio de mensajes.
      * @param repositorioMensaje El repositorio de mensajes.
      */
-    public MessageService(RepositorioMensaje repositorioMensaje) {
+    public MensajeService(RepositorioMensaje repositorioMensaje) {
         this.repositorioMensaje = repositorioMensaje;
     }
 

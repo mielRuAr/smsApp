@@ -4,14 +4,13 @@ import java.util.List;
 
 import core.domain.interfaces.IMensaje;
 import core.domain.interfaces.IUsuario;
-import core.domain.services.MessageService;
+import core.domain.services.MensajeService;
 import core.domain.services.UserService;
 import core.usecase.EnviarMensajeUseCase;
 import core.usecase.VerContactosUseCase;
 import core.usecase.VerMensajesUseCase;
 
 public class PostmanController {
-
     private EnviarMensajeUseCase enviarMensajeUseCase;
     private VerContactosUseCase verContactosUseCase;
     private VerMensajesUseCase verMensajesUseCase;
@@ -21,8 +20,8 @@ public class PostmanController {
      * @param messageService El servicio de mensajes.
      * @param userService El servicio de usuarios.
      */
-    public PostmanController(MessageService messageService, UserService userService) {
-        this.enviarMensajeUseCase = new EnviarMensajeUseCase(messageService, userService);
+    public PostmanController(MensajeService messageService, UserService userService) {
+        this.enviarMensajeUseCase = new EnviarMensajeUseCase(messageService);
         this.verContactosUseCase = new VerContactosUseCase(userService);
         this.verMensajesUseCase = new VerMensajesUseCase(messageService);
     }

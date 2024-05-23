@@ -2,25 +2,23 @@ package core.usecase;
 
 import java.time.LocalDate;
 
-import core.domain.interfaces.IUsuario;
+
 import core.domain.models.abstracts.Mensaje;
 import core.domain.models.concretes.SMS;
-import core.domain.interfaces.IMensaje;
-import core.domain.services.MessageService;
-import core.domain.services.UserService;
+import core.domain.services.MensajeService;
+
 
 public class EnviarMensajeUseCase {
-	 private MessageService messageService;
-	    private UserService userService;
+	 private MensajeService messageService;
+
 
 	    /**
 	     * Constructor para inicializar los servicios.
 	     * @param messageService El servicio de mensajes.
 	     * @param userService El servicio de usuarios.
 	     */
-	    public EnviarMensajeUseCase(MessageService messageService, UserService userService) {
+	    public EnviarMensajeUseCase(MensajeService messageService) {
 	        this.messageService = messageService;
-	        this.userService = userService;
 	    }
 
 	    /**
