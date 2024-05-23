@@ -1,5 +1,6 @@
 package core.usecase.agenda;
 
+import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.services.AgendaService;
 
@@ -17,7 +18,7 @@ public class EliminarContactoUseCase {
 	     * @param nombreContacto El nombre del contacto a eliminar.
 	     * @return true si el contacto fue eliminado, false en caso contrario.
 	     */
-	    public boolean ejecutar(Usuario usuario, int numeroUsuario, String nombreContacto) {
+	    public boolean ejecutar(IUsuario usuario, int numeroUsuario, String nombreContacto) {
 	        return agendaService.eliminarContacto(usuario, numeroUsuario, nombreContacto);
 	    }
 	    

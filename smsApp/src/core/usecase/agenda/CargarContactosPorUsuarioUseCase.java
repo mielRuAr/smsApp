@@ -2,6 +2,7 @@ package core.usecase.agenda;
 
 import java.util.List;
 
+import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.services.AgendaService;
 
@@ -18,7 +19,7 @@ public class CargarContactosPorUsuarioUseCase {
 	     * @param numeroUsuario El número del usuario cuya agenda se está consultando.
 	     * @return Lista de contactos.
 	     */
-	    public List<String> ejecutar(Usuario usuario, int numeroUsuario) {
+	    public List<String> ejecutar(IUsuario usuario, int numeroUsuario) {
 	        return agendaService.cargarContactosPorUsuario(usuario, numeroUsuario);
 	    }
 }

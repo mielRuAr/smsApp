@@ -101,19 +101,22 @@ public class RepositorioContactos {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\|");
-                int numeroUsuario = Integer.parseInt(parts[0]);
-                List<String> contactos = new ArrayList<>();
-                for (String contacto : parts[1].split(";")) {
-                    contactos.add(contacto);
+                if (parts.length >= 2) {
+                    int numeroUsuario = Integer.parseInt(parts[0]);
+                    List<String> contactos = new ArrayList<>();
+                    if (!parts[1].isEmpty()) {
+                        for (String contacto : parts[1].split(";")) {
+                            contactos.add(contacto);
+                        }
+                    }
+                    agendas.add(new AgendaContactos(numeroUsuario, contactos));
                 }
-                agendas.add(new AgendaContactos(numeroUsuario, contactos));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return agendas;
     }
-
     /**
      * Carga los contactos de un usuario específico.
      * @param numeroUsuario El número del usuario cuya agenda se está cargando.

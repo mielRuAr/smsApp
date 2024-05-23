@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 import java.util.Scanner;
 
+import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.AgendaContactos;
 import core.usecase.agenda.CargarContactosPorUsuarioUseCase;
@@ -25,7 +26,7 @@ public class AgendaController {
 	     * @param usuario El usuario que realiza la operación.
 	     * @param scanner El objeto Scanner para leer entradas del usuario.
 	     */
-	    public void guardarContacto(Usuario usuario, Scanner scanner) {
+	    public void guardarContacto(IUsuario usuario, Scanner scanner) {
 	        System.out.print("Ingrese el nombre del nuevo contacto: ");
 	        String nombreContacto = scanner.nextLine();
 	        System.out.print("Ingrese el número de teléfono del nuevo contacto: ");
@@ -48,7 +49,7 @@ public class AgendaController {
 	     * @param usuario El usuario que realiza la operación.
 	     * @param scanner El objeto Scanner para leer entradas del usuario.
 	     */
-	    public void verContactos(Usuario usuario, Scanner scanner) {
+	    public void verContactos(IUsuario usuario, Scanner scanner) {
 	        List<String> contactos = cargarContactosPorUsuarioUseCase.ejecutar(usuario, usuario.getNumero());
 	        System.out.println("Contactos del usuario " + usuario.getNumero() + ": " + contactos);
 	    }
@@ -58,7 +59,7 @@ public class AgendaController {
 	     * @param usuario El usuario que realiza la operación.
 	     * @param scanner El objeto Scanner para leer entradas del usuario.
 	     */
-	    public void eliminarContacto(Usuario usuario, Scanner scanner) {
+	    public void eliminarContacto(IUsuario usuario, Scanner scanner) {
 	        System.out.print("Ingrese el nombre del contacto a eliminar: ");
 	        String nombreContacto = scanner.nextLine();
 

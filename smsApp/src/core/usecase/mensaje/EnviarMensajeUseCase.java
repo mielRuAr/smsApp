@@ -6,33 +6,24 @@ import java.time.LocalDate;
 import core.domain.models.abstracts.Mensaje;
 import core.domain.models.concretes.SMS;
 import core.domain.services.MensajeService;
+import core.domain.interfaces.IMensaje;
 
 
 public class EnviarMensajeUseCase {
-	 private MensajeService messageService;
+	 private MensajeService mensajeService;
 
-
-	    /**
-	     * Constructor para inicializar los servicios.
-	     * @param messageService El servicio de mensajes.
-	     * @param userService El servicio de usuarios.
-	     */
-	    public EnviarMensajeUseCase(MensajeService messageService) {
-	        this.messageService = messageService;
+	    public EnviarMensajeUseCase(MensajeService mensajeService) {
+	        this.mensajeService = mensajeService;
 	    }
 
 	    /**
-	     * Envía un mensaje de un usuario a otro.
+	     * Ejecuta el caso de uso de enviar un mensaje.
 	     * @param remitenteNumero Número de teléfono del remitente.
 	     * @param destinatarioNumero Número de teléfono del destinatario.
 	     * @param texto Contenido del mensaje.
 	     */
-	    public void enviarMensaje(int remitenteNumero, int destinatarioNumero, String texto) {
-	        Mensaje mensaje = new SMS();
-	        mensaje.setRemitente(remitenteNumero);
-	        mensaje.setDestinatario(destinatarioNumero);
-	        mensaje.setTexto(texto);
-	        mensaje.setTimeStamp(LocalDate.now());
-	        messageService.enviarMensaje(mensaje);
+	    public void ejecutar(int remitenteNumero, int destinatarioNumero, String texto) {
+	        IMensaje mensaje = new SMS(remitenteNumero, destinatarioNumero, LocalDate.now(), texto);
+	        mensajeService.enviarMensaje(mensaje);
 	    }
 }

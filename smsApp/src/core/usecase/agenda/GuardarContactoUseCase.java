@@ -2,6 +2,7 @@ package core.usecase.agenda;
 
 import java.util.List;
 
+import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.services.AgendaService;
 
@@ -20,7 +21,7 @@ public class GuardarContactoUseCase {
      * @param numeroContacto El número del contacto a agregar.
      * @return true si el contacto fue agregado, false si ya existe.
      */
-    public boolean ejecutar(Usuario usuario, int numeroUsuario, String nombreContacto, String numeroContacto) {
+    public boolean ejecutar(IUsuario usuario, int numeroUsuario, String nombreContacto, String numeroContacto) {
         if (esNumeroValido(numeroContacto)) {
             return agendaService.agregarContacto(usuario, numeroUsuario, nombreContacto, numeroContacto);
         } else {

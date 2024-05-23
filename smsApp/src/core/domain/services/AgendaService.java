@@ -2,6 +2,7 @@ package core.domain.services;
 
 import java.util.List;
 
+import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.AgendaContactos;
 import core.domain.models.concretes.UsuarioAdmin;
@@ -26,7 +27,7 @@ public class AgendaService {
      * @param numeroContacto El número del contacto a agregar.
      * @return true si el contacto fue agregado, false si ya existe.
      */
-    public boolean agregarContacto(Usuario usuario, int numeroUsuario, String nombreContacto, String numeroContacto) {
+    public boolean agregarContacto(IUsuario usuario, int numeroUsuario, String nombreContacto, String numeroContacto) {
         if (usuario instanceof UsuarioAdmin || usuario.getNumero() == numeroUsuario) {
             if (repositorioUsuario.buscarUsuarioPorNumero(Integer.parseInt(numeroContacto)) == null) {
                 throw new IllegalArgumentException("El número de contacto no está registrado en el sistema.");
@@ -50,7 +51,7 @@ public class AgendaService {
      * @param nombreContacto El nombre del contacto a eliminar.
      * @return true si el contacto fue eliminado, false en caso contrario.
      */
-    public boolean eliminarContacto(Usuario usuario, int numeroUsuario, String nombreContacto) {
+    public boolean eliminarContacto(IUsuario usuario, int numeroUsuario, String nombreContacto) {
         if (usuario instanceof UsuarioAdmin || usuario.getNumero() == numeroUsuario) {
             return repositorioContactos.eliminarContacto(numeroUsuario, nombreContacto);
         } else {
@@ -64,7 +65,7 @@ public class AgendaService {
      * @param numeroUsuario El número del usuario cuya agenda se está consultando.
      * @return Lista de contactos.
      */
-    public List<String> cargarContactosPorUsuario(Usuario usuario, int numeroUsuario) {
+    public List<String> cargarContactosPorUsuario(IUsuario usuario, int numeroUsuario) {
         if (usuario instanceof UsuarioAdmin || usuario.getNumero() == numeroUsuario) {
             return repositorioContactos.cargarContactosPorUsuario(numeroUsuario);
         } else {

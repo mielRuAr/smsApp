@@ -19,10 +19,10 @@ public class VerContactosUseCase {
 	    }
 
 	    /**
-	     * Obtiene todos los contactos del sistema.
+	     * Ejecuta el caso de uso para obtener todos los contactos del sistema.
 	     * @return Lista de todos los usuarios.
 	     */
-	    public List<IUsuario> verContactos() {
+	    public List<IUsuario> ejecutar() {
 	        return userService.obtenerTodosLosContactos();
 	    }
 }
