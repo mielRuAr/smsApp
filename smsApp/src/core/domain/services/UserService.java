@@ -45,4 +45,28 @@ public class UserService {
     public List<IUsuario> obtenerTodosLosContactos() {
         return repositorioUsuario.cargarTodosLosUsuarios();
     }
+    
+    /**
+     * Bloquea un usuario en el sistema.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void bloquearUsuario(int numeroTelefono) {
+        repositorioUsuario.bloquearUsuario(numeroTelefono);
+    }
+
+    /**
+     * Desbloquea un usuario en el sistema.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void desbloquearUsuario(int numeroTelefono) {
+        repositorioUsuario.desbloquearUsuario(numeroTelefono);
+    }
+
+    /**
+     * Elimina un usuario del sistema.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void eliminarUsuario(int numeroTelefono) {
+        repositorioUsuario.eliminarUsuario(numeroTelefono);
+    }
 }

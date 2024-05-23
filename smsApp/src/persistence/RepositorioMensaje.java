@@ -128,4 +128,29 @@ public class RepositorioMensaje {
         }
         return mensajes;
     }
+    
+    /**
+     * Filtra los mensajes por remitente y destinatario.
+     * @param remitenteNumero Número de teléfono del remitente.
+     * @param destinatarioNumero Número de teléfono del destinatario.
+     * @return Lista de mensajes filtrados por destinatario.
+     */
+    public List<IMensaje> filtrarMensajesPorDestinatario(int remitenteNumero, int destinatarioNumero) {
+        List<IMensaje> mensajes = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                int remit = Integer.parseInt(parts[0]);
+                int dest = Integer.parseInt(parts[1]);
+                if (remit == remitenteNumero && dest == destinatarioNumero) {
+                    IMensaje mensaje = new SMS(remit, dest, LocalDate.parse(parts[2]), parts[3]);
+                    mensajes.add(mensaje);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mensajes;
+    }
 }

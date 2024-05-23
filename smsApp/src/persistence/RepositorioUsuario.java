@@ -69,34 +69,7 @@ public class RepositorioUsuario {
         return usuarios;
     }
 
-    /**
-     * Bloquea un usuario en el fichero de texto.
-     * @param numeroTelefono Número de teléfono del usuario.
-     */
-    public void bloquearUsuario(int numeroTelefono) {
-        List<String> usuarios = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(":");
-                if (Integer.parseInt(parts[0]) == numeroTelefono) {
-                    parts[4] = "bloqueado"; // Asumiendo que el estado del usuario está en la quinta posición
-                }
-                usuarios.add(String.join(":", parts));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-            for (String usuario : usuarios) {
-                writer.write(usuario);
-                writer.newLine();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Autentica un usuario mediante su número de teléfono y contraseña.
@@ -146,6 +119,79 @@ public class RepositorioUsuario {
         return false;
     }
     
-    
+    /**
+     * Bloquea un usuario en el fichero de texto.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void bloquearUsuario(int numeroTelefono) {
+        modificarEstadoUsuario(numeroTelefono, "bloqueado");
+    }
+
+    /**
+     * Desbloquea un usuario en el fichero de texto.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void desbloquearUsuario(int numeroTelefono) {
+        modificarEstadoUsuario(numeroTelefono, "activo");
+    }
+
+    /**
+     * Modifica el estado de un usuario en el fichero de texto.
+     * @param numeroTelefono Número de teléfono del usuario.
+     * @param estado El nuevo estado del usuario.
+     */
+    private void modificarEstadoUsuario(int numeroTelefono, String estado) {
+        List<String> usuarios = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (Integer.parseInt(parts[0]) == numeroTelefono) {
+                    parts[4] = estado;
+                }
+                usuarios.add(String.join(":", parts));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (String usuario : usuarios) {
+                writer.write(usuario);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Elimina un usuario en el fichero de texto.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void eliminarUsuario(int numeroTelefono) {
+        List<String> usuarios = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (Integer.parseInt(parts[0]) != numeroTelefono) {
+                    usuarios.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (String usuario : usuarios) {
+                writer.write(usuario);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     
 }

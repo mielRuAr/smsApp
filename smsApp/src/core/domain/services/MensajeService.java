@@ -60,4 +60,16 @@ public class MensajeService {
     public List<IMensaje> filtrarMensajesPorRemitente(int remitente) {
         return repositorioMensaje.cargarMensajesPorRemitente(remitente);
     }
+    
+    // Métodos existentes...
+
+    /**
+     * Filtra los mensajes por remitente y destinatario.
+     * @param remitenteNumero Número de teléfono del remitente.
+     * @param destinatarioNumero Número de teléfono del destinatario.
+     * @return Lista de mensajes filtrados por destinatario.
+     */
+    public List<IMensaje> filtrarMensajesPorDestinatario(int remitenteNumero, int destinatarioNumero) {
+        return repositorioMensaje.filtrarMensajesPorDestinatario(remitenteNumero, destinatarioNumero);
+    }
 }
