@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import controllers.AgendaController;
 public class MenuController {
-		private Usuario usuario;
+	  private Usuario usuario;
 	    private PostmanController postmanController;
 	    private AgendaController agendaController;
 
@@ -17,19 +17,21 @@ public class MenuController {
 	        this.agendaController = agendaController;
 	    }
 
-	    public void mostrarMenuPrincipal() {
-	        Scanner scanner = new Scanner(System.in);
+	    /**
+	     * Muestra el menú principal y maneja las opciones del usuario.
+	     * @param scanner El objeto Scanner para leer entradas del usuario.
+	     */
+	    public void mostrarMenuPrincipal(Scanner scanner) {
 	        while (true) {
 	            System.out.println("\nMenu Principal:");
 	            System.out.println("1. Enviar mensaje");
 	            System.out.println("2. Ver contactos");
 	            System.out.println("3. Guardar contacto");
-	            if (usuario instanceof UsuarioAdmin) {
-	                System.out.println("4. Ver todas las agendas");
-	            }
+	            System.out.println("4. Eliminar contacto");
 	            System.out.println("5. Cerrar sesión");
 	            System.out.print("Seleccione una opción: ");
 	            int opcion = scanner.nextInt();
+	            scanner.nextLine(); // Consume newline left-over
 
 	            switch (opcion) {
 	                case 1:
@@ -42,11 +44,7 @@ public class MenuController {
 	                    agendaController.guardarContacto(usuario, scanner);
 	                    break;
 	                case 4:
-	                    if (usuario instanceof UsuarioAdmin) {
-	                        agendaController.verTodasLasAgendas(usuario);
-	                    } else {
-	                        System.out.println("Opción no válida. Intente de nuevo.");
-	                    }
+	                    agendaController.eliminarContacto(usuario, scanner);
 	                    break;
 	                case 5:
 	                    System.out.println("Sesión cerrada.");

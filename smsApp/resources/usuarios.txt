@@ -1,1 +1,4 @@
 637474747:Mihai:Normal:1234:nobloqueado
+637474748:Ariel:Admin:1234:nobloqueado
+637474749:Ariel2:Normal:1234:nobloqueado
+637474746:Ariel1:Normal:1234:nobloqueado

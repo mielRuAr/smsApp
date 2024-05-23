@@ -11,6 +11,10 @@ public class LoginController {
         this.loginUseCase = loginUseCase;
     }
 
+    /**
+     * Inicia sesión en el sistema.
+     * @return El número de teléfono del usuario si la autenticación es exitosa, -1 en caso contrario.
+     */
     public int iniciarSesion() {
         Scanner scanner = new Scanner(System.in);
         int intentos = 0;
@@ -27,7 +31,6 @@ public class LoginController {
 
             if (loginUseCase.autenticarUsuario(numeroTelefono, password)) {
                 System.out.println("Autenticación exitosa");
-                // Devolver el número de teléfono para su uso en el menú principal
                 return numeroTelefono;
             } else {
                 System.out.println("Número de teléfono o contraseña incorrecta");
