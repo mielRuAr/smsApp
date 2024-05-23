@@ -123,24 +123,6 @@ public class RepositorioUsuario {
         return false;
     }
     
-    //metodo para saber si es admin
-    public boolean esAdmin(int numeroTelefono) {
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] partes = linea.split(":");
-                int telefono = Integer.parseInt(partes[0]);
-                String rol = partes[2]; // Obtener el rol del usuario
-
-                if (telefono == numeroTelefono && rol.equals("admin")) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false; // Devolver falso si no se encuentra un usuario con ese número de teléfono o si no es admin
-    }
 
     
     /**

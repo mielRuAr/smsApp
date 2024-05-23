@@ -1,9 +1,12 @@
 package window;
 
 import javax.swing.*;
-import java.awt.*;
+
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import core.domain.interfaces.IUsuario;
+import core.domain.models.concretes.UsuarioAdmin;
 
 public class VentanaPrincipal extends JFrame {
     private JButton btnEnviarMensaje;
@@ -14,7 +17,7 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnCerrarSesion;
     private JButton btnGestionUsuarios;
 
-    public VentanaPrincipal(boolean isAdmin) {
+    public VentanaPrincipal(IUsuario iUsuario) {
         setTitle("Ventana Principal");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
@@ -31,7 +34,6 @@ public class VentanaPrincipal extends JFrame {
         btnBuscarMensaje = new JButton("Buscar Mensaje");
         btnCerrarSesion = new JButton("Cerrar Sesión");
 
-        // Agregar botones comunes para usuarios normales
         panel.add(btnEnviarMensaje);
         panel.add(btnVerMensajesRecibidos);
         panel.add(btnVerMensajesEnviados);
@@ -39,20 +41,24 @@ public class VentanaPrincipal extends JFrame {
         panel.add(btnBuscarMensaje);
         panel.add(btnCerrarSesion);
 
-        // Agregar botones adicionales para administradores
-        if (isAdmin) {
+        // Verificar si el usuario es administrador para mostrar el botón de gestión de usuarios
+        if (iUsuario instanceof UsuarioAdmin) {
             btnGestionUsuarios = new JButton("Gestión de Usuarios");
             panel.add(btnGestionUsuarios);
         }
 
+        // Agregar ActionListener al botón "Enviar Mensaje"
+        btnEnviarMensaje.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Mostrar la ventana de enviar mensaje
+                VentanaEnviarMensaje ventanaEnviarMensaje = new VentanaEnviarMensaje(VentanaPrincipal.this);
+                ventanaEnviarMensaje.setVisible(true);
+                
+            }
+        });
+
         add(panel);
     }
 
-    public static void main(String[] args) {
-        // Este booleano indica si el usuario logeado es un administrador o no
-        boolean isAdmin = true; // Cambiar a true o false según corresponda
-
-        VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(isAdmin);
-        ventanaPrincipal.setVisible(true);
-    }
 }

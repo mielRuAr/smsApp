@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 import core.domain.services.LoginService;
 import persistence.RepositorioUsuario;
 
@@ -71,11 +72,10 @@ public class Ventana extends JFrame {
                 }
 
                 int numeroTelefono = Integer.parseInt(numeroTelefonoStr);
-
-                // Autenticar al usuario
+                
+                // Lógica de autenticación
                 if (loginService.autenticarUsuario(numeroTelefono, contraseña)) {
-                    boolean esAdmin = repositorioUsuario.esAdmin(numeroTelefono);
-                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(esAdmin);
+                    VentanaPrincipal ventanaPrincipal = new VentanaPrincipal(repositorioUsuario.buscarUsuarioPorNumero(numeroTelefono));
                     ventanaPrincipal.setVisible(true);
                     dispose(); // Cerrar la ventana de inicio de sesión después de iniciar sesión
                 } else {
@@ -89,12 +89,13 @@ public class Ventana extends JFrame {
 
     // Método para validar que el número de teléfono sea un número
     private boolean validarNumeroTelefono(String numeroTelefonoStr) {
-        return numeroTelefonoStr.matches("\\d+");
+        return Pattern.matches("\\d+", numeroTelefonoStr);
     }
 
     public static void main(String[] args) {
-        RepositorioUsuario repositorioUsuario = new RepositorioUsuario(); // Instanciar el repositorio de usuarios
-        LoginService loginService = new LoginService(repositorioUsuario); // Instanciar el servicio de login con el repositorio
+        // Debes inicializar tu repositorio de usuarios y pasarlos al constructor de LoginService
+        RepositorioUsuario repositorioUsuario = new RepositorioUsuario(); // Debes reemplazar esto con tu inicialización real
+        LoginService loginService = new LoginService(repositorioUsuario);
 
         Ventana ventana = new Ventana(loginService, repositorioUsuario);
         ventana.setVisible(true);
