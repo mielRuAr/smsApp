@@ -6,6 +6,7 @@ import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.AgendaContactos;
 import core.domain.models.concretes.UsuarioAdmin;
 import persistence.RepositorioContactos;
+import persistence.RepositorioUsuario;
 
 public class AgendaService {
 	  private RepositorioContactos repositorioContactos;
