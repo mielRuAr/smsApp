@@ -8,102 +8,75 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RespositorioContactos {
-	 private static final String FILE_PATH = "resources/contactos.txt";
+import core.domain.models.concretes.AgendaContactos;
 
-	    /**
-	     * Guarda los contactos de un usuario en el fichero de texto.
-	     * @param numeroUsuario Número de teléfono del usuario.
-	     * @param contactos Lista de números de teléfono de los contactos.
-	     */
-	    public void guardarContacto(int numeroUsuario, List<Integer> contactos) {
-	        List<String> lineas = cargarContactos();
-	        boolean usuarioEncontrado = false;
+public class RepositorioContactos {
+	private static final String FILE_PATH = "resources/contactos.txt";
 
-	        for (int i = 0; i < lineas.size(); i++) {
-	            String[] parts = lineas.get(i).split("\\|");
-	            if (Integer.parseInt(parts[0]) == numeroUsuario) {
-	                usuarioEncontrado = true;
-	                StringBuilder sb = new StringBuilder();
-	                sb.append(numeroUsuario).append("|");
-	                for (int j = 0; j < contactos.size(); j++) {
-	                    sb.append(contactos.get(j));
-	                    if (j < contactos.size() - 1) {
-	                        sb.append(":");
-	                    }
-	                }
-	                sb.append("|");
-	                lineas.set(i, sb.toString());
-	                break;
-	            }
-	        }
+    public void guardarContacto(AgendaContactos agendaContactos) {
+        List<AgendaContactos> agendas = cargarTodasLasAgendas();
+        boolean usuarioEncontrado = false;
 
-	        if (!usuarioEncontrado) {
-	            StringBuilder sb = new StringBuilder();
-	            sb.append(numeroUsuario).append("|");
-	            for (int j = 0; j < contactos.size(); j++) {
-	                sb.append(contactos.get(j));
-	                if (j < contactos.size() - 1) {
-	                    sb.append(":");
-	                }
-	            }
-	            sb.append("|");
-	            lineas.add(sb.toString());
-	        }
+        for (int i = 0; i < agendas.size(); i++) {
+            if (agendas.get(i).getNumeroUsuario() == agendaContactos.getNumeroUsuario()) {
+                agendas.set(i, agendaContactos);
+                usuarioEncontrado = true;
+                break;
+            }
+        }
 
-	        guardarTodosLosContactos(lineas);
-	    }
+        if (!usuarioEncontrado) {
+            agendas.add(agendaContactos);
+        }
 
-	    /**
-	     * Carga todos los contactos desde el fichero de texto.
-	     * @return Lista de todas las líneas de contactos.
-	     */
-	    public List<String> cargarContactos() {
-	        List<String> lineas = new ArrayList<>();
-	        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                lineas.add(line);
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        return lineas;
-	    }
+        guardarTodasLasAgendas(agendas);
+    }
 
-	    /**
-	     * Carga los contactos de un usuario específico desde el fichero de texto.
-	     * @param numeroUsuario Número de teléfono del usuario.
-	     * @return Lista de números de teléfono de los contactos del usuario.
-	     */
-	    public List<Integer> cargarContactosPorUsuario(int numeroUsuario) {
-	        List<String> lineas = cargarContactos();
-	        for (String linea : lineas) {
-	            String[] parts = linea.split("\\|");
-	            if (Integer.parseInt(parts[0]) == numeroUsuario) {
-	                List<Integer> contactos = new ArrayList<>();
-	                for (String contacto : parts[1].split(":")) {
-	                    contactos.add(Integer.parseInt(contacto));
-	                }
-	                return contactos;
-	            }
-	        }
-	        return new ArrayList<>();
-	    }
+    public List<AgendaContactos> cargarTodasLasAgendas() {
+        List<AgendaContactos> agendas = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                int numeroUsuario = Integer.parseInt(parts[0]);
+                List<Integer> contactos = new ArrayList<>();
+                for (String contacto : parts[1].split(":")) {
+                    contactos.add(Integer.parseInt(contacto));
+                }
+                agendas.add(new AgendaContactos(numeroUsuario, contactos));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return agendas;
+    }
 
-	    /**
-	     * Guarda todos los contactos en el fichero de texto.
-	     * @param lineas Lista de todas las líneas de contactos.
-	     */
-	    private void guardarTodosLosContactos(List<String> lineas) {
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
-	            for (String linea : lineas) {
-	                writer.write(linea);
-	                writer.newLine();
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
+    public List<Integer> cargarContactosPorUsuario(int numeroUsuario) {
+        List<AgendaContactos> agendas = cargarTodasLasAgendas();
+        for (AgendaContactos agenda : agendas) {
+            if (agenda.getNumeroUsuario() == numeroUsuario) {
+                return agenda.getContactos();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private void guardarTodasLasAgendas(List<AgendaContactos> agendas) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (AgendaContactos agenda : agendas) {
+                writer.write(agenda.getNumeroUsuario() + "|");
+                for (int i = 0; i < agenda.getContactos().size(); i++) {
+                    writer.write(agenda.getContactos().get(i).toString());
+                    if (i < agenda.getContactos().size() - 1) {
+                        writer.write(":");
+                    }
+                }
+                writer.write("|");
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	}
 
