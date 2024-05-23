@@ -1,4 +1,4 @@
-package core.usecase;
+package core.usecase.usuarios;
 
 import core.domain.services.LoginService;
 

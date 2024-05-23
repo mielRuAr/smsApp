@@ -1,4 +1,4 @@
-package core.usecase;
+package core.usecase.agenda;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class CargarContactosPorUsuarioUseCase {
         this.agendaService = agendaService;
     }
 
-    public List<Integer> ejecutar(Usuario usuario, int numeroUsuario) {
+    public List<String> ejecutar(Usuario usuario, int numeroUsuario) {
         return agendaService.cargarContactosPorUsuario(usuario, numeroUsuario);
     }
 }

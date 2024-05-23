@@ -1,4 +1,4 @@
-package core.usecase;
+package core.usecase.mensaje;
 
 import java.util.List;
 import java.util.stream.Collectors;
