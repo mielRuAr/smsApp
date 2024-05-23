@@ -1,4 +1,1 @@
-637474747:Mihai:Normal
-645775744:Ariel:Admin
-637474747:Mihai:Normal
-645775744:Ariel:Admin
+637474747:Mihai:Normal:1234:nobloqueado

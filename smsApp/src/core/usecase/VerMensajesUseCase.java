@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import core.domain.interfaces.IMensaje;
-import core.domain.services.MessageService;
+import core.domain.services.MensajeService;
 
 public class VerMensajesUseCase {
-	 private MessageService messageService;
+	 private MensajeService messageService;
 
 	    /**
 	     * Constructor para inicializar el servicio de mensajes.
 	     * @param messageService El servicio de mensajes.
 	     */
-	    public VerMensajesUseCase(MessageService messageService) {
+	    public VerMensajesUseCase(MensajeService messageService) {
 	        this.messageService = messageService;
 	    }
 

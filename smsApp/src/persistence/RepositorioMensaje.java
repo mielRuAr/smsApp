@@ -19,8 +19,6 @@ import core.domain.models.concretes.SMS;
  * Repositorio para manejar operaciones relacionadas con mensajes en Firebase.
  */
 public class RepositorioMensaje {
-
-
 	private static final String FILE_PATH = "resources/mensajes.txt";
 
     /**
@@ -37,23 +35,19 @@ public class RepositorioMensaje {
     }
 
     /**
-     * Busca los mensajes enviados por un número de remitente específico.
-     * @param numero Número de teléfono del remitente.
+     * Busca mensajes por el número de remitente.
+     * @param remitente Número de teléfono del remitente.
      * @return Lista de mensajes enviados por el remitente.
      */
-    public List<IMensaje> buscarMensajesPorNumeroRemitente(int numero) {
+    public List<IMensaje> buscarMensajesPorNumeroRemitente(int remitente) {
         List<IMensaje> mensajes = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                int remitente = Integer.parseInt(parts[0]);
-                if (remitente == numero) {
-                    Mensaje mensaje = new SMS();
-                    mensaje.setRemitente(remitente);
-                    mensaje.setDestinatario(Integer.parseInt(parts[1]));
-                    mensaje.setTimeStamp(LocalDate.parse(parts[2]));
-                    mensaje.setTexto(parts[3]);
+                int remit = Integer.parseInt(parts[0]);
+                if (remit == remitente) {
+                    IMensaje mensaje = new SMS(remit, Integer.parseInt(parts[1]), LocalDate.parse(parts[2]), parts[3]);
                     mensajes.add(mensaje);
                 }
             }
@@ -65,22 +59,18 @@ public class RepositorioMensaje {
 
     /**
      * Carga todos los mensajes recibidos por un destinatario específico.
-     * @param numero Número de teléfono del destinatario.
+     * @param destinatario Número de teléfono del destinatario.
      * @return Lista de mensajes recibidos por el destinatario.
      */
-    public List<IMensaje> cargarTodosLosMensajesPorDestinatario(int numero) {
+    public List<IMensaje> cargarTodosLosMensajesPorDestinatario(int destinatario) {
         List<IMensaje> mensajes = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":");
-                int destinatario = Integer.parseInt(parts[1]);
-                if (destinatario == numero) {
-                    Mensaje mensaje = new SMS();
-                    mensaje.setRemitente(Integer.parseInt(parts[0]));
-                    mensaje.setDestinatario(destinatario);
-                    mensaje.setTimeStamp(LocalDate.parse(parts[2]));
-                    mensaje.setTexto(parts[3]);
+                int dest = Integer.parseInt(parts[1]);
+                if (dest == destinatario) {
+                    IMensaje mensaje = new SMS(Integer.parseInt(parts[0]), dest, LocalDate.parse(parts[2]), parts[3]);
                     mensajes.add(mensaje);
                 }
             }

@@ -3,7 +3,6 @@ package core.domain.services;
 import java.util.List;
 
 import core.domain.interfaces.IUsuario;
-import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.UsuarioNormal;
 import persistence.RepositorioUsuario;
 
@@ -23,10 +22,11 @@ public class UserService {
      * @param numeroTelefono Número de teléfono del usuario.
      * @param nombre Nombre del usuario.
      * @param tipo Tipo de usuario (normal o administrador).
+     * @param contraseña Contraseña del usuario.
      */
-    public void añadirUsuario(int numeroTelefono, String nombre, String tipo) {
-        Usuario usuario = new UsuarioNormal(numeroTelefono, nombre, tipo);
-        repositorioUsuario.guardarUsuario(usuario);
+    public void añadirUsuario(int numeroTelefono, String nombre, String tipo, String contraseña) {
+        IUsuario usuario = new UsuarioNormal(numeroTelefono, nombre, tipo);
+        repositorioUsuario.guardarUsuario(usuario, contraseña);
     }
 
     /**

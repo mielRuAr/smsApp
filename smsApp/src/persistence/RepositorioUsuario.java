@@ -12,60 +12,140 @@ import core.domain.interfaces.IUsuario;
 import core.domain.models.concretes.UsuarioNormal;
 
 public class RepositorioUsuario {
-	  private static final String FILE_PATH = "resources/usuarios.txt";
+	private static final String FILE_PATH = "resources/usuarios.txt";
+    /**
+     * Guarda un usuario en el fichero de texto.
+     * @param usuario El usuario a guardar.
+     * @param contraseña La contraseña del usuario.
+     */
+    public void guardarUsuario(IUsuario usuario, String contraseña) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
+            writer.write(usuario.getNumero() + ":" + usuario.getNombre() + ":" + usuario.getRol() + ":" + contraseña + ":activo");
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	    /**
-	     * Guarda un usuario en el fichero de texto.
-	     * @param usuario El usuario a guardar.
-	     */
-	    public void guardarUsuario(IUsuario usuario) {
-	        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-	            writer.write(usuario.getNumero() + ":" + usuario.getNombre() + ":" + usuario.getRol());
-	            writer.newLine();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
+    /**
+     * Busca un usuario por su número de teléfono.
+     * @param numero Número de teléfono del usuario.
+     * @return El usuario encontrado o null si no se encuentra.
+     */
+    public IUsuario buscarUsuarioPorNumero(int numero) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                int num = Integer.parseInt(parts[0]);
+                if (num == numero) {
+                    return new UsuarioNormal(num, parts[1], parts[2]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	    /**
-	     * Busca un usuario por su número de teléfono.
-	     * @param numero Número de teléfono del usuario.
-	     * @return El usuario encontrado o null si no se encuentra.
-	     */
-	    public IUsuario buscarUsuarioPorNumero(int numero) {
-	        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                String[] parts = line.split(":");
-	                int num = Integer.parseInt(parts[0]);
-	                if (num == numero) {
-	                    return new UsuarioNormal(num, parts[1], parts[2]);
-	                }
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        return null;
-	    }
+    /**
+     * Carga todos los usuarios desde el fichero de texto.
+     * @return Lista de todos los usuarios.
+     */
+    public List<IUsuario> cargarTodosLosUsuarios() {
+        List<IUsuario> usuarios = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                int numero = Integer.parseInt(parts[0]);
+                String nombre = parts[1];
+                String rol = parts[2];
+                usuarios.add(new UsuarioNormal(numero, nombre, rol));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
 
-	    /**
-	     * Carga todos los usuarios desde el fichero de texto.
-	     * @return Lista de todos los usuarios.
-	     */
-	    public List<IUsuario> cargarTodosLosUsuarios() {
-	        List<IUsuario> usuarios = new ArrayList<>();
-	        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
-	            String line;
-	            while ((line = reader.readLine()) != null) {
-	                String[] parts = line.split(":");
-	                int numero = Integer.parseInt(parts[0]);
-	                String nombre = parts[1];
-	                String rol = parts[2];
-	                usuarios.add(new UsuarioNormal(numero, nombre, rol));
-	            }
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	        return usuarios;
-	    }
+    /**
+     * Bloquea un usuario en el fichero de texto.
+     * @param numeroTelefono Número de teléfono del usuario.
+     */
+    public void bloquearUsuario(int numeroTelefono) {
+        List<String> usuarios = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                if (Integer.parseInt(parts[0]) == numeroTelefono) {
+                    parts[4] = "bloqueado"; // Asumiendo que el estado del usuario está en la quinta posición
+                }
+                usuarios.add(String.join(":", parts));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            for (String usuario : usuarios) {
+                writer.write(usuario);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Autentica un usuario mediante su número de teléfono y contraseña.
+     * @param numeroTelefono Número de teléfono del usuario.
+     * @param password Contraseña del usuario.
+     * @return true si la autenticación es exitosa, false en caso contrario.
+     */
+    public boolean autenticarUsuario(int numeroTelefono, String password) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(":");
+                int telefono = Integer.parseInt(partes[0]);
+                String pass = partes[3];
+                String estado = partes[4]; // Asumiendo que el estado del usuario está en la quinta posición
+
+                if (telefono == numeroTelefono && pass.equals(password) && !estado.equals("bloqueado")) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    /**
+     * Verifica si un usuario está bloqueado.
+     * @param numeroTelefono Número de teléfono del usuario.
+     * @return true si el usuario está bloqueado, false en caso contrario.
+     */
+    public boolean estaBloqueado(int numeroTelefono) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(":");
+                int telefono = Integer.parseInt(partes[0]);
+                String estado = partes[4]; // Asumiendo que el estado del usuario está en la quinta posición
+
+                if (telefono == numeroTelefono && estado.equals("bloqueado")) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    
+    
 }
