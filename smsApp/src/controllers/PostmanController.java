@@ -10,7 +10,7 @@ import core.domain.services.EliminarMensajeUseCase;
 import core.domain.services.MensajeService;
 import core.domain.services.UserService;
 import core.usecase.agenda.CargarContactosPorUsuarioUseCase;
-import core.usecase.agenda.GuardarContactoUseCase;
+import core.usecase.agenda.AgregarContactoUseCase;
 import core.usecase.agenda.VerContactosUseCase;
 import core.usecase.mensaje.EnviarMensajeUseCase;
 import core.usecase.mensaje.FiltrarMensajesPorRemitenteUseCase;

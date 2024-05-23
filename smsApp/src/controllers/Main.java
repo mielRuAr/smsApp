@@ -16,7 +16,7 @@ import core.domain.services.MensajeService;
 import core.domain.services.UserService;
 import core.usecase.agenda.CargarContactosPorUsuarioUseCase;
 import core.usecase.agenda.EliminarContactoUseCase;
-import core.usecase.agenda.GuardarContactoUseCase;
+import core.usecase.agenda.AgregarContactoUseCase;
 import core.usecase.agenda.VerContactosUseCase;
 import core.usecase.mensaje.EnviarMensajeUseCase;
 import core.usecase.mensaje.FiltrarMensajesPorRemitenteUseCase;
@@ -54,7 +54,7 @@ public class Main {
 	        VerMensajesRecibidosPorUsuarioUseCase verMensajesRecibidosPorUsuarioUseCase = new VerMensajesRecibidosPorUsuarioUseCase(messageService);
 	        EliminarMensajeUseCase eliminarMensajeUseCase = new EliminarMensajeUseCase(messageService);
 	        FiltrarMensajesPorRemitenteUseCase filtrarMensajesPorRemitenteUseCase = new FiltrarMensajesPorRemitenteUseCase(messageService);
-	        GuardarContactoUseCase guardarContactoUseCase = new GuardarContactoUseCase(agendaService);
+	        AgregarContactoUseCase guardarContactoUseCase = new AgregarContactoUseCase(agendaService);
 	        CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase = new CargarContactosPorUsuarioUseCase(agendaService);
 	        EliminarContactoUseCase eliminarContactoUseCase = new EliminarContactoUseCase(agendaService);
 

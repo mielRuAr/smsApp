@@ -8,14 +8,14 @@ import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.AgendaContactos;
 import core.usecase.agenda.CargarContactosPorUsuarioUseCase;
 import core.usecase.agenda.EliminarContactoUseCase;
-import core.usecase.agenda.GuardarContactoUseCase;
+import core.usecase.agenda.AgregarContactoUseCase;
 
 public class AgendaController {
-	   private GuardarContactoUseCase guardarContactoUseCase;
+	   private AgregarContactoUseCase guardarContactoUseCase;
 	    private CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase;
 	    private EliminarContactoUseCase eliminarContactoUseCase;
 
-	    public AgendaController(GuardarContactoUseCase guardarContactoUseCase, CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase, EliminarContactoUseCase eliminarContactoUseCase) {
+	    public AgendaController(AgregarContactoUseCase guardarContactoUseCase, CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase, EliminarContactoUseCase eliminarContactoUseCase) {
 	        this.guardarContactoUseCase = guardarContactoUseCase;
 	        this.cargarContactosPorUsuarioUseCase = cargarContactosPorUsuarioUseCase;
 	        this.eliminarContactoUseCase = eliminarContactoUseCase;

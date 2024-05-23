@@ -6,10 +6,10 @@ import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.services.AgendaService;
 
-public class GuardarContactoUseCase {
+public class AgregarContactoUseCase {
 	private AgendaService agendaService;
 
-    public GuardarContactoUseCase(AgendaService agendaService) {
+    public AgregarContactoUseCase(AgendaService agendaService) {
         this.agendaService = agendaService;
     }
 
