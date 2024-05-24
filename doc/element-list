@@ -1,0 +1,9 @@
+controllers
+core.domain.interfaces
+core.domain.models.abstracts
+core.domain.models.concretes
+core.domain.services
+core.usecase.agenda
+core.usecase.mensaje
+core.usecase.usuarios
+persistence

@@ -12,7 +12,7 @@ import core.domain.interfaces.IUsuario;
 import core.domain.models.concretes.UsuarioNormal;
 
 public class RepositorioUsuario {
-	private static final String FILE_PATH = "resources/usuarios.txt";
+	private static final String FILE_PATH = "smsApp/resources/usuarios.txt";
     /**
      * Guarda un usuario en el fichero de texto.
      * @param usuario El usuario a guardar.

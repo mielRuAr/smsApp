@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controllers"},{"l":"core.domain.interfaces"},{"l":"core.domain.models.abstracts"},{"l":"core.domain.models.concretes"},{"l":"core.domain.services"},{"l":"core.usecase.agenda"},{"l":"core.usecase.mensaje"},{"l":"core.usecase.usuarios"},{"l":"persistence"}];updateSearchResults();

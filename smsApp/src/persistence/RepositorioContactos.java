@@ -11,7 +11,7 @@ import java.util.List;
 import core.domain.models.concretes.AgendaContactos;
 
 public class RepositorioContactos {
-	private static final String FILE_PATH = "resources/contactos.txt";
+	private static final String FILE_PATH = "smsApp/resources/contactos.txt";
 
     /**
      * Guarda la lista de contactos para un usuario.

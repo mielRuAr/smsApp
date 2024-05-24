@@ -21,7 +21,7 @@ import core.domain.models.concretes.SMS;
  * Repositorio para manejar operaciones relacionadas con mensajes en Firebase.
  */
 public class RepositorioMensaje {
-	   private static final String FILE_PATH = "resources/mensajes.txt";
+	   private static final String FILE_PATH = "smsApp/resources/mensajes.txt";
 	    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 	    /**
