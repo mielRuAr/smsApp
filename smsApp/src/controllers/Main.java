@@ -20,7 +20,6 @@ import core.usecase.agenda.AgregarContactoUseCase;
 import core.usecase.agenda.VerContactosUseCase;
 import core.usecase.mensaje.EnviarMensajeUseCase;
 import core.usecase.mensaje.FiltrarMensajesPorDestinatarioUseCase;
-import core.usecase.mensaje.FiltrarMensajesPorRemitenteUseCase;
 import core.usecase.mensaje.VerMensajesEnviadosPorUsuarioUseCase;
 import core.usecase.mensaje.VerMensajesRecibidosPorUsuarioUseCase;
 import core.usecase.mensaje.VerMensajesUseCase;
@@ -57,7 +56,6 @@ public class Main {
         VerMensajesEnviadosPorUsuarioUseCase verMensajesEnviadosPorUsuarioUseCase = new VerMensajesEnviadosPorUsuarioUseCase(messageService);
         VerMensajesRecibidosPorUsuarioUseCase verMensajesRecibidosPorUsuarioUseCase = new VerMensajesRecibidosPorUsuarioUseCase(messageService);
         EliminarMensajeUseCase eliminarMensajeUseCase = new EliminarMensajeUseCase(messageService);
-        FiltrarMensajesPorRemitenteUseCase filtrarMensajesPorRemitenteUseCase = new FiltrarMensajesPorRemitenteUseCase(messageService);
         AgregarContactoUseCase agregarContactoUseCase = new AgregarContactoUseCase(agendaService);
         CargarContactosPorUsuarioUseCase cargarContactosPorUsuarioUseCase = new CargarContactosPorUsuarioUseCase(agendaService);
         EliminarContactoUseCase eliminarContactoUseCase = new EliminarContactoUseCase(agendaService);
@@ -68,7 +66,7 @@ public class Main {
 
         // Instancia de los controladores
         LoginController loginController = new LoginController(loginUseCase);
-        PostmanController postmanController = new PostmanController(enviarMensajeUseCase, verContactosUseCase, verMensajesEnviadosPorUsuarioUseCase, verMensajesRecibidosPorUsuarioUseCase, eliminarMensajeUseCase, filtrarMensajesPorRemitenteUseCase, filtrarMensajePorDestinatarioUseCase);
+        PostmanController postmanController = new PostmanController(enviarMensajeUseCase, verContactosUseCase, verMensajesEnviadosPorUsuarioUseCase, verMensajesRecibidosPorUsuarioUseCase, eliminarMensajeUseCase, filtrarMensajePorDestinatarioUseCase);
         AgendaController agendaController = new AgendaController(agregarContactoUseCase, cargarContactosPorUsuarioUseCase, eliminarContactoUseCase);
         UserController userController = new UserController(userService);
 
@@ -79,7 +77,7 @@ public class Main {
     private static void iniciarAplicacion(LoginController loginController, PostmanController postmanController, AgendaController agendaController, UserController userController) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenido al sistema de mensajería");
-        int numeroTelefono = loginController.iniciarSesion();
+        int numeroTelefono = loginController.iniciarSesion(scanner);
         if (numeroTelefono != -1) {
             IUsuario usuarioInterface = userService.obtenerUsuario(numeroTelefono);
             if (usuarioInterface == null) {

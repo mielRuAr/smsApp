@@ -48,21 +48,15 @@ public class MensajeService {
      * @param remitente Número de teléfono del remitente.
      * @return Lista de mensajes enviados.
      */
-    public List<IMensaje> obtenerMensajesPorRemitente(int remitente) {
+    public List<IMensaje> obtenerMensajesPorRemitente(int remitente) { //para admin
         return repositorioMensaje.cargarMensajesPorRemitente(remitente);
     }
 
-    /**
-     * Filtra los mensajes por remitente.
-     * @param remitente Número de teléfono del remitente.
-     * @return Lista de mensajes enviados por el remitente.
-     */
-    public List<IMensaje> filtrarMensajesPorRemitente(int remitente) {
-        return repositorioMensaje.cargarMensajesPorRemitente(remitente);
+
+    public List<IMensaje> cargarMensajesPorDestinatario(int destinatarioNumero) { //para admin
+        return repositorioMensaje.cargarMensajesPorDestinatario(destinatarioNumero);
     }
     
-    // Métodos existentes...
-
     /**
      * Filtra los mensajes por remitente y destinatario.
      * @param remitenteNumero Número de teléfono del remitente.
@@ -72,4 +66,6 @@ public class MensajeService {
     public List<IMensaje> filtrarMensajesPorDestinatario(int remitenteNumero, int destinatarioNumero) {
         return repositorioMensaje.filtrarMensajesPorDestinatario(remitenteNumero, destinatarioNumero);
     }
+    
+
 }

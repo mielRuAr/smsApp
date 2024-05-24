@@ -1,7 +1,7 @@
 package core.usecase.mensaje;
 
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 import core.domain.models.abstracts.Mensaje;
 import core.domain.models.concretes.SMS;
@@ -23,7 +23,7 @@ public class EnviarMensajeUseCase {
 	     * @param texto Contenido del mensaje.
 	     */
 	    public void ejecutar(int remitenteNumero, int destinatarioNumero, String texto) {
-	        IMensaje mensaje = new SMS(remitenteNumero, destinatarioNumero, LocalDate.now(), texto);
+	        IMensaje mensaje = new SMS(remitenteNumero, destinatarioNumero, LocalDateTime.now(), texto);
 	        mensajeService.enviarMensaje(mensaje);
 	    }
 }

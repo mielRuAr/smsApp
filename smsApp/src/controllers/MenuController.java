@@ -5,6 +5,7 @@ import core.domain.interfaces.IUsuario;
 import core.domain.models.abstracts.Usuario;
 import core.domain.models.concretes.UsuarioAdmin;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,8 +92,8 @@ public class MenuController {
             System.out.println("1. Ver mensajes enviados");
             System.out.println("2. Ver mensajes recibidos");
             if (usuario instanceof UsuarioAdmin) {
-                System.out.println("3. Ver mensajes enviados por número");
-                System.out.println("4. Ver mensajes recibidos por número");
+                System.out.println("3. Ver mensajes recibidos por número");
+                System.out.println("4. Ver mensajes enviados por número");
                 System.out.println("5. Volver al menú principal");
             } else {
                 System.out.println("3. Volver al menú principal");
@@ -110,14 +111,14 @@ public class MenuController {
                     break;
                 case 3:
                     if (usuario instanceof UsuarioAdmin) {
-                        verMensajesEnviadosPorNumero(scanner);
+                    	verMensajesEnviadosAUnNumero(scanner);
                     } else {
                         return;
                     }
                     break;
                 case 4:
                     if (usuario instanceof UsuarioAdmin) {
-                        verMensajesRecibidosPorNumero(scanner);
+                    	verMensajesEnviadosPorUnNumero(scanner);
                     } else {
                         return;
                     }
@@ -132,44 +133,59 @@ public class MenuController {
         }
     }
 
-    private void verMensajesEnviados(Scanner scanner) {
+
+    private void verMensajesEnviados(Scanner scanner) {//usuario
         System.out.print("Ingrese el número de teléfono para filtrar (o presione enter para ver todos): ");
         String filtro = scanner.nextLine();
         List<IMensaje> mensajes = filtro.isEmpty() ? postmanController.verMensajesEnviados(usuario.getNumero())
-                : postmanController.filtrarMensajesPorRemitente(usuario.getNumero());
+                : postmanController.filtrarMensajesPorDestinatario(usuario.getNumero(), Integer.parseInt(filtro));
         for (IMensaje mensaje : mensajes) {
-            System.out.println(mensaje);
+            System.out.println("Numero destinatario: " + mensaje.getDestinatario());
+            System.out.println("Fecha: " + mensaje.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.out.println("Contenido: " + mensaje.getTexto());
+            System.out.println();
         }
     }
-
-    private void verMensajesRecibidos(Scanner scanner) {
+    
+    private void verMensajesRecibidos(Scanner scanner) {//usuario
         System.out.print("Ingrese el número de teléfono para filtrar (o presione enter para ver todos): ");
         String filtro = scanner.nextLine();
         List<IMensaje> mensajes = filtro.isEmpty() ? postmanController.verMensajesRecibidos(usuario.getNumero())
-                : postmanController.filtrarMensajesPorRemitente(Integer.parseInt(filtro));
+                : postmanController.filtrarMensajesPorDestinatario(Integer.parseInt(filtro) ,usuario.getNumero());
         for (IMensaje mensaje : mensajes) {
-            System.out.println(mensaje);
+            System.out.println("Numero remitente: " + mensaje.getRemitente());
+            System.out.println("Fecha: " + mensaje.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.out.println("Contenido: " + mensaje.getTexto());
+            System.out.println();
         }
     }
 
-    private void verMensajesEnviadosPorNumero(Scanner scanner) {
+    private void verMensajesEnviadosAUnNumero(Scanner scanner) {//para admin
         System.out.print("Ingrese el número de teléfono del destinatario: ");
         int numeroDestinatario = scanner.nextInt();
         scanner.nextLine(); // consume newline
-        List<IMensaje> mensajes = postmanController.filtrarMensajesPorDestinatario(usuario.getNumero(), numeroDestinatario);
+        List<IMensaje> mensajes = postmanController.verMensajesRecibidos(numeroDestinatario);
         for (IMensaje mensaje : mensajes) {
-            System.out.println(mensaje);
+            System.out.println("Numero remitente: " + mensaje.getRemitente());
+            System.out.println("Numero destinatario: " + mensaje.getDestinatario());
+            System.out.println("Fecha: " + mensaje.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.out.println("Contenido: " + mensaje.getTexto());
+            System.out.println();
         }
     }
 
-    private void verMensajesRecibidosPorNumero(Scanner scanner) {
-    	  System.out.print("Ingrese el número de teléfono del remitente: ");
-          int numeroRemitente = scanner.nextInt();
-          scanner.nextLine(); // consume newline
-          List<IMensaje> mensajes = postmanController.filtrarMensajesPorRemitente(numeroRemitente);
-          for (IMensaje mensaje : mensajes) {
-              System.out.println(mensaje);
-          }
+    private void verMensajesEnviadosPorUnNumero(Scanner scanner) {//para admin
+    	System.out.print("Ingrese el número de teléfono del remitente: ");
+        int numeroRemitente = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        List<IMensaje> mensajes = postmanController.verMensajesEnviados(numeroRemitente);
+        for (IMensaje mensaje : mensajes) {
+            System.out.println("Numero remitente: " + mensaje.getRemitente());
+            System.out.println("Numero destinatario: " + mensaje.getDestinatario());
+            System.out.println("Fecha: " + mensaje.getTimeStamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            System.out.println("Contenido: " + mensaje.getTexto());
+            System.out.println();
+        }
     }
 
     private void mostrarMenuAgenda(Scanner scanner) {

@@ -1,9 +1,10 @@
 package core.domain.interfaces;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface IMensaje {
-	LocalDate getTimeStamp();
+	LocalDateTime getTimeStamp();
 	int getRemitente();
 	int getDestinatario();
 	String getTexto();
@@ -11,5 +12,5 @@ public interface IMensaje {
 	void setRemitente(int remitente);
 	void setDestinatario(int destinatario);
 	void setTexto(String texto);
-	void setTimeStamp(LocalDate timeStamp);
+	void setTimeStamp(LocalDateTime timeStamp);
 }

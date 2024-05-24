@@ -1,6 +1,7 @@
 package core.domain.models.abstracts;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import core.domain.interfaces.IMensaje;
 import core.domain.interfaces.IUsuario;
@@ -8,7 +9,7 @@ import core.domain.interfaces.IUsuario;
 public abstract class Mensaje implements IMensaje{
 	protected int remitente;
 	protected int destinatario;
-	protected LocalDate timeStamp;
+	protected LocalDateTime timeStamp;
 	protected String texto;
 	
     // Constructor sin argumentos necesario para Gson
@@ -17,7 +18,7 @@ public abstract class Mensaje implements IMensaje{
     
     
 	@Override
-	public LocalDate getTimeStamp() {
+	public LocalDateTime getTimeStamp() {
 		// TODO Auto-generated method stub
 		return this.timeStamp;
 	}
@@ -65,7 +66,7 @@ public abstract class Mensaje implements IMensaje{
 
 
 	@Override
-	public void setTimeStamp(LocalDate timeStamp) {
+	public void setTimeStamp(LocalDateTime timeStamp) {
 		// TODO Auto-generated method stub
 		this.timeStamp = timeStamp;
 	}

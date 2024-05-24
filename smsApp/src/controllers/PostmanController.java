@@ -14,7 +14,6 @@ import core.usecase.agenda.AgregarContactoUseCase;
 import core.usecase.agenda.VerContactosUseCase;
 import core.usecase.mensaje.EnviarMensajeUseCase;
 import core.usecase.mensaje.FiltrarMensajesPorDestinatarioUseCase;
-import core.usecase.mensaje.FiltrarMensajesPorRemitenteUseCase;
 import core.usecase.mensaje.VerMensajesEnviadosPorUsuarioUseCase;
 import core.usecase.mensaje.VerMensajesRecibidosPorUsuarioUseCase;
 import core.usecase.mensaje.VerMensajesUseCase;
@@ -25,21 +24,18 @@ public class PostmanController {
     private VerMensajesEnviadosPorUsuarioUseCase verMensajesEnviadosPorUsuarioUseCase;
     private VerMensajesRecibidosPorUsuarioUseCase verMensajesRecibidosPorUsuarioUseCase;
     private EliminarMensajeUseCase eliminarMensajeUseCase;
-    private FiltrarMensajesPorRemitenteUseCase filtrarMensajesPorRemitenteUseCase;
     private FiltrarMensajesPorDestinatarioUseCase filtrarMensajePorDestinatarioUseCase;
 
     public PostmanController(EnviarMensajeUseCase enviarMensajeUseCase, VerContactosUseCase verContactosUseCase,
                              VerMensajesEnviadosPorUsuarioUseCase verMensajesEnviadosPorUsuarioUseCase,
                              VerMensajesRecibidosPorUsuarioUseCase verMensajesRecibidosPorUsuarioUseCase,
                              EliminarMensajeUseCase eliminarMensajeUseCase,
-                             FiltrarMensajesPorRemitenteUseCase filtrarMensajesPorRemitenteUseCase,
                              FiltrarMensajesPorDestinatarioUseCase filtrarMensajePorDestinatarioUseCase) {
         this.enviarMensajeUseCase = enviarMensajeUseCase;
         this.verContactosUseCase = verContactosUseCase;
         this.verMensajesEnviadosPorUsuarioUseCase = verMensajesEnviadosPorUsuarioUseCase;
         this.verMensajesRecibidosPorUsuarioUseCase = verMensajesRecibidosPorUsuarioUseCase;
         this.eliminarMensajeUseCase = eliminarMensajeUseCase;
-        this.filtrarMensajesPorRemitenteUseCase = filtrarMensajesPorRemitenteUseCase;
         this.filtrarMensajePorDestinatarioUseCase = filtrarMensajePorDestinatarioUseCase;
     }
 
@@ -89,14 +85,6 @@ public class PostmanController {
         eliminarMensajeUseCase.ejecutar(remitenteNumero, destinatarioNumero, texto);
     }
 
-    /**
-     * Filtra los mensajes por remitente.
-     * @param remitenteNumero Número de teléfono del remitente.
-     * @return Lista de mensajes filtrados por remitente.
-     */
-    public List<IMensaje> filtrarMensajesPorRemitente(int remitenteNumero) {
-        return filtrarMensajesPorRemitenteUseCase.ejecutar(remitenteNumero);
-    }
     
     /**
      * Filtra los mensajes por destinatario.
