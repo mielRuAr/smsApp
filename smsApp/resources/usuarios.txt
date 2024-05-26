@@ -1,3 +1,13 @@
 637474747:Mihai:Normal:1234:activo
 637474748:Ariel:Admin:1234:nobloqueado
 637474746:Ariel1:Normal:1234:nobloqueado
+123456789:Alice:normal:password:activo
+987654321:Bob:normal:password:activo
+123456789:Alice:normal:password:activo
+987654321:Bob:normal:password:activo
+123456789:Alice:normal:password:activo
+987654321:Bob:normal:password:activo
+123456789:Alice:normal:password:activo
+987654321:Bob:normal:password:activo
+123456789:Alice:normal:password:activo
+987654321:Bob:normal:password:activo
