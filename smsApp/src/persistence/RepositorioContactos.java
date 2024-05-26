@@ -2,16 +2,36 @@ package persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import core.domain.models.concretes.AgendaContactos;
 
 public class RepositorioContactos {
-	private static final String FILE_PATH = "resources/contactos.txt";
+    private static final String DIRECTORY_PATH = System.getProperty("user.home") + File.separator + "carpetaPrograma";
+    private static final String FILE_PATH = DIRECTORY_PATH + File.separator + "contactos.txt";
+
+    public RepositorioContactos() {
+        try {
+            Path directoryPath = Paths.get(DIRECTORY_PATH);
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+            }
+            Path filePath = Paths.get(FILE_PATH);
+            if (!Files.exists(filePath)) {
+                Files.createFile(filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Guarda la lista de contactos para un usuario.
@@ -117,6 +137,7 @@ public class RepositorioContactos {
         }
         return agendas;
     }
+
     /**
      * Carga los contactos de un usuario específico.
      * @param numeroUsuario El número del usuario cuya agenda se está cargando.
@@ -153,7 +174,7 @@ public class RepositorioContactos {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Verifica si un contacto ya existe en la agenda de un usuario.
      * @param numeroUsuario El número del usuario cuya agenda se está verificando.

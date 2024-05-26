@@ -2,9 +2,13 @@ package persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +16,24 @@ import core.domain.interfaces.IUsuario;
 import core.domain.models.concretes.UsuarioNormal;
 
 public class RepositorioUsuario {
-	private static final String FILE_PATH = "resources/usuarios.txt";
+	private static final String DIRECTORY_PATH = System.getProperty("user.home") + File.separator + "carpetaPrograma";
+    private static final String FILE_PATH = DIRECTORY_PATH + File.separator + "usuarios.txt";
+
+    public RepositorioUsuario() {
+        try {
+            Path directoryPath = Paths.get(DIRECTORY_PATH);
+            if (!Files.exists(directoryPath)) {
+                Files.createDirectories(directoryPath);
+            }
+            Path filePath = Paths.get(FILE_PATH);
+            if (!Files.exists(filePath)) {
+                Files.createFile(filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Guarda un usuario en el fichero de texto.
      * @param usuario El usuario a guardar.
@@ -20,7 +41,7 @@ public class RepositorioUsuario {
      */
     public void guardarUsuario(IUsuario usuario, String contraseña) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
-            writer.write(usuario.getNumero() + ":" + usuario.getNombre() + ":" + usuario.getRol() + ":" + contraseña + ":activo");
+            writer.write(usuario.getNumero() + ":" + usuario.getNombre() + ":" + usuario.getRol() + ":" + contraseña + ":nobloqueado");
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,8 +90,6 @@ public class RepositorioUsuario {
         return usuarios;
     }
 
-
-
     /**
      * Autentica un usuario mediante su número de teléfono y contraseña.
      * @param numeroTelefono Número de teléfono del usuario.
@@ -95,7 +114,7 @@ public class RepositorioUsuario {
         }
         return false;
     }
-    
+
     /**
      * Verifica si un usuario está bloqueado.
      * @param numeroTelefono Número de teléfono del usuario.
@@ -118,7 +137,7 @@ public class RepositorioUsuario {
         }
         return false;
     }
-    
+
     /**
      * Bloquea un usuario en el fichero de texto.
      * @param numeroTelefono Número de teléfono del usuario.
@@ -132,7 +151,7 @@ public class RepositorioUsuario {
      * @param numeroTelefono Número de teléfono del usuario.
      */
     public void desbloquearUsuario(int numeroTelefono) {
-        modificarEstadoUsuario(numeroTelefono, "activo");
+        modificarEstadoUsuario(numeroTelefono, "nobloqueado");
     }
 
     /**
@@ -192,6 +211,4 @@ public class RepositorioUsuario {
             e.printStackTrace();
         }
     }
-
-    
 }
